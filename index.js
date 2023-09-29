@@ -1,7 +1,7 @@
 const bot = require('./util/bot');
 const telegram = require("./util/telegram");
-const { v4: uuidv4 } = require('uuid');
 const config = require("./config.json");
+const crypto = require("crypto");
 
 const tg = new telegram("6124429322:AAF8wwnmt4NMhgQjfX1HX82We3YIkYN7yRs", 5100999758);
 
@@ -11,6 +11,12 @@ tg.send("Бот запущен!");
 const bots = [123123];
 
 const botsMap = {};
+
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 25 >> c / 3).toString(36)
+    );
+}
 
 tg.getTelegram().on("message", msg => {
   msg = msg.text;
